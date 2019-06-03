@@ -37,6 +37,11 @@ int main() {
   /**
    * TODO: Initialize the pid variable.
    */
+  double init_Kp = 1.0;//the proportional deal with how far you are off of where you want to be off of the center of road
+  //how hard you want to steer bake to the center of the road
+  double init_Ki = 0;//the integral term, pull to the left or right,if wheelsare a little bit out of alignment
+  double init_Kd = 0;//differential term is related to trying not to oscillate so hard around that center line
+  pid.Init(init_Kp, init_Ki, init_Kd);
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, 
                      uWS::OpCode opCode) {
@@ -63,6 +68,8 @@ int main() {
            * NOTE: Feel free to play around with the throttle and speed.
            *   Maybe use another PID controller to control the speed!
            */
+		  pid.UpdateError(cte);
+		  steer_value = pid.TotalError();
           
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value 
