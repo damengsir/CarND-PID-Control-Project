@@ -37,12 +37,15 @@ int main() {
   /**
    * TODO: Initialize the pid variable.
    */
-  double init_Kp = 1.0;//the proportional deal with how far you are off of where you want to be off of the center of road
+  //the proportional deal with how far you are off of where you want to be off of the center of road
   //how hard you want to steer bake to the center of the road
-  double init_Ki = 0;//the integral term, pull to the left or right,if wheelsare a little bit out of alignment
-  double init_Kd = 0;//differential term is related to trying not to oscillate so hard around that center line
+  double init_Kp = 0.73802;  //0.22//0.2975 //0.32725//0.389427//0.42837//0.544458//0.647905//0.563804//0.670927//0.73802
+  // the integral term, pull to the left or right,if wheelsare a little bit out of alignment
+  double init_Ki = 0.0001; 
+  double init_Kd = 5.69141;//0.6//0.726//1.1//2.2 //2.42//2.8798//3.16778//4.70365//5.17401
+  //differential term is related to trying not to oscillate so hard around that center line
   pid.Init(init_Kp, init_Ki, init_Kd);
-
+  
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, 
                      uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -68,12 +71,15 @@ int main() {
            * NOTE: Feel free to play around with the throttle and speed.
            *   Maybe use another PID controller to control the speed!
            */
-		  pid.UpdateError(cte);
-		  steer_value = pid.TotalError();
+		     pid.UpdateError(cte);
+		     steer_value = pid.TotalError();
           
+      
           // DEBUG
-          std::cout << "CTE: " << cte << " Steering Value: " << steer_value 
-                    << std::endl;
+          std::cout<<"_______________________"<<std::endl;
+          std::cout << "CTE: " << cte << " Angle: " << angle << std::endl;
+          std::cout << " Steer Value: " << steer_value << std::endl;
+          std::cout<<"_______________________"<<std::endl;
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
