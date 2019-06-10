@@ -2,6 +2,25 @@
 Self-Driving Car Engineer Nanodegree Program
 
 ---
+## Instruction
+  The goal of the project is to construct a PID controller. Learn how to optimize the perparameters of P, I, D.
+## Reflection
+* Describe the effect each of the P, I, D components had in your implementation.
+
+   P : It represents proportional control. The car's steer angle is proportional with the car's distance to the center of the road. If the vechile is more farther away from the center of the road, the turning angle is greater, otherwise, the turning angle is smaller.
+
+   D : It represents differential control. It is related to trying not to oscillate so hard around that center line. If chosing a appropriate, It can prevent the car crossing the center of the road.
+
+   I : It represents integral control. It can remove the bias off the center which both P and D can't solve.
+
+* Describe how the final hyperparameters were chosen.
+
+   First, I set the I value zero, because it is important only on the long running.
+
+   Second, I manually adjusted the P and D value, Let the car drive on the road roughly. It's important, because there is not enough space for the car driving lateral. After some tries, the car could drive smoothly on the straight road. But it shocked largely when there was a turn, even overshooted the road. I solved the problem with increasing the D value.
+
+   Then, optimized the P and D using Twiddle method. When I got a good solution, I began to set the I value. After some tries, it was set a small value. I allowed my Twiddle to continue optimized for 1 million steps.At the end, I chosen the final value (P:0.73802, I:0.0001, D:5.69141).
+
 
 ## Dependencies
 
